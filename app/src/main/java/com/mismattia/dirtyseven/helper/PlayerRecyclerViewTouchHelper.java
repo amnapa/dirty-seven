@@ -1,6 +1,5 @@
 package com.mismattia.dirtyseven.helper;
 
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.text.Layout;
@@ -17,7 +16,7 @@ import com.mismattia.dirtyseven.adapter.PlayerAdapter;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class PlayerRecyclerViewTouchHelper extends ItemTouchHelper.SimpleCallback {
-    private PlayerAdapter adapter;
+    private final PlayerAdapter adapter;
 
     public PlayerRecyclerViewTouchHelper(PlayerAdapter adapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
@@ -46,18 +45,8 @@ public class PlayerRecyclerViewTouchHelper extends ItemTouchHelper.SimpleCallbac
 
             builder.setTitle(title);
             builder.setMessage("این بازیکن حذف شود؟");
-            builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int which) {
-                    adapter.deletePlayer(position);
-                }
-            });
-            builder.setNegativeButton("خیر", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    adapter.notifyItemChanged(position);
-                }
-            });
+            builder.setPositiveButton("بله", (dialogInterface, which) -> adapter.deletePlayer(position));
+            builder.setNegativeButton("خیر", (dialogInterface, i) -> adapter.notifyItemChanged(position));
 
             AlertDialog dialog = builder.create();
             dialog.setCanceledOnTouchOutside(false);

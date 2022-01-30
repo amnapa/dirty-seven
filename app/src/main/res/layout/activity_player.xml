@@ -19,11 +19,26 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/minister_regular_ui"/>
 
+    <AutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="انتخاب بازیکن"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:id="@+id/autoCompleteTxtViewPlayerName"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:completionThreshold="1"
+        android:layout_below="@+id/txtView"
+        android:fontFamily="@font/minister_regular_ui"/>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recyclerView"
-        android:layout_below="@+id/txtView"
+        android:layout_below="@+id/autoCompleteTxtViewPlayerName"
         android:layout_centerHorizontal="true"
         android:nestedScrollingEnabled="true" />
 

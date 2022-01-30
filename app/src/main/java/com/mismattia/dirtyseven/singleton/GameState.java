@@ -24,5 +24,6 @@ public class GameState {
         gameId = game.getId();
         gameName = game.getName();
         maxScore = game.getMaxScore();
+        roundNumber = game.getRounds();
     }
 }

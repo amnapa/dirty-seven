@@ -1,84 +1,55 @@
 package com.mismattia.dirtyseven;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.mismattia.dirtyseven.adapter.GameResultAdapter;
 import com.mismattia.dirtyseven.model.Game;
+import com.mismattia.dirtyseven.model.GameResult;
 import com.mismattia.dirtyseven.singleton.GameState;
 import com.mismattia.dirtyseven.utility.DatabaseHelper;
 
-import org.w3c.dom.Text;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 public class ResultActivity extends AppCompatActivity {
-
-    private DatabaseHelper myDB;
-    private TextView txtViewResultGameName;
-    private TextView txtViewGameDuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        txtViewResultGameName = findViewById(R.id.txtViewResultGameName);
-        txtViewGameDuration = findViewById(R.id.txtViewGameDuration);
-        myDB = new DatabaseHelper(ResultActivity.this);
+        RecyclerView gaeResultRecyclerView = findViewById(R.id.recyclerView);
+        TextView txtViewResultGameName = findViewById(R.id.txtViewResultGameName);
+        TextView txtViewGameDuration = findViewById(R.id.txtViewGameDuration);
+        TextView txtViewGameRounds = findViewById(R.id.txtViewGameRounds);
 
-        LinkedHashMap<String, Integer> players = myDB.getFinalResult();
+        DatabaseHelper myDB = new DatabaseHelper(ResultActivity.this);
         Game game = myDB.getGame(GameState.getInstance().gameId);
 
-        txtViewResultGameName.setText("امتیازهای پایانی - " + game.getName() );
-        String gameDuration = game.getDuration().equals("") ? "-" : game.getDuration();
-        txtViewGameDuration.setText("مدت زمان بازی: " + gameDuration);
+        txtViewResultGameName.setText("امتیازهای پایانی " + GameState.getInstance().gameName );
+        txtViewGameRounds.setText("تعداد دور: " + game.getRounds());
+        txtViewGameDuration.setText("مدت زمان: " + game.getDuration());
 
-        TableLayout stk = findViewById(R.id.tableResult);
-        TableRow.LayoutParams tb = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.5f);
+        myDB = new DatabaseHelper(ResultActivity.this);
+        List<GameResult> gameResults;
+        GameResultAdapter adapter = new GameResultAdapter(myDB, ResultActivity.this, this::showPlayerResult);
 
-        int counter = 0;
+        gameResults = myDB.getFinalResult();
+        adapter.setResults(gameResults);
 
-        for (Map.Entry<String, Integer> set :
-                players.entrySet()) {
-            counter++;
+        gaeResultRecyclerView.setHasFixedSize(true);
+        gaeResultRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        gaeResultRecyclerView.setAdapter(adapter);
+    }
 
-            TableRow tbrow = new TableRow(this);
-            tbrow.setTextDirection(View.TEXT_DIRECTION_RTL);
-
-            TextView t1v = new TextView(this);
-            t1v.setTextDirection(View.TEXT_DIRECTION_RTL);
-            String name = String.valueOf(counter) + ". " + set.getKey();
-            t1v.setText(name);
-            t1v.setTextColor(Color.BLACK);
-            t1v.setTextSize(20);
-            t1v.setPadding(20, 20,20,20);
-            t1v.setGravity(Gravity.CENTER);
-            t1v.setLayoutParams(tb);
-            tbrow.addView(t1v);
-
-            TextView t2v = new TextView(this);
-            t2v.setTextDirection(View.TEXT_DIRECTION_RTL);
-            t2v.setText(set.getValue().toString());
-            t2v.setTextColor(Color.BLACK);
-            t2v.setTextSize(25);
-            t2v.setPadding(20, 20,20,20);
-            t2v.setGravity(Gravity.CENTER);
-            t2v.setLayoutParams(tb);
-            tbrow.addView(t2v);
-
-            stk.addView(tbrow);
-
-        }
-
-
-
+    private void showPlayerResult(GameResult gameResult) {
+        Intent intent = new Intent(ResultActivity.this, PlayerResultActivity.class );
+        intent.putExtra("PLAYER_ID", gameResult.getPlayerId());
+        startActivity(intent);
     }
 }

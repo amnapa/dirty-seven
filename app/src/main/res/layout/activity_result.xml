@@ -1,80 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollableTable"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
     tools:context=".ResultActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="نتیجه پایانی -"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:id="@+id/txtViewResultGameName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/minister_regular_ui"/>
 
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layoutDirection="rtl">
+        android:id="@+id/gameDetails"
+        android:layout_below="@+id/txtViewResultGameName">
 
         <TextView
-            android:id="@+id/txtViewResultGameName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/txtViewGameRounds"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/minister_regular_ui"
-            android:text="نتیجه پایانی -"
-            android:textColor="@color/black"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="تعداد دور:"
+            android:layout_marginRight="20dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtViewGameDuration"
-            android:text="زمان بازی:"
-            app:layout_constraintTop_toBottomOf="@+id/txtViewResultGameName"
-            app:layout_constraintStart_toStartOf="@+id/txtViewResultGameName"
-            app:layout_constraintEnd_toEndOf="@+id/txtViewResultGameName"/>
-
-        <TableLayout
-            android:id="@+id/tableResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
-            android:weightSum="1"
-            app:layout_constraintTop_toBottomOf="@+id/txtViewGameDuration">
+            android:layout_below="@+id/txtViewGameRounds"
+            android:text="زمان بازی:" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/red">
+    </RelativeLayout>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
-                    android:fontFamily="@font/minister_regular_ui"
-                    android:gravity="center"
-                    android:padding="20dp"
-                    android:text="نام"
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:fontFamily="@font/minister_regular_ui"
-                    android:gravity="center"
-                    android:padding="20dp"
-                    android:text="امتیاز"
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerView"
+        android:layout_below="@+id/gameDetails"
+        android:layout_centerHorizontal="true"
+        android:nestedScrollingEnabled="true" />
 
-            </TableRow>
-        </TableLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</RelativeLayout>

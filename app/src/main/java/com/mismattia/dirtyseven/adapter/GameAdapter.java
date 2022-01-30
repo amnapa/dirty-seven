@@ -24,7 +24,6 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewHolder> 
 
     private static final String TAG = "GameAdapter";
     private List<Game> gameList = new ArrayList<>();
-    private List<Game> gameListCopy = new ArrayList<>();
     private AppCompatActivity activity;
     private DatabaseHelper myDB;
     final private OnItemClickListener listener;
@@ -62,7 +61,6 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewHolder> 
 
     public void setGames(List<Game> gameList) {
         this.gameList = gameList;
-        this.gameListCopy = gameList;
     }
 
     public List<Game> getGames() {

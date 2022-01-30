@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:elevation="5dp"
+    android:layout_centerHorizontal="true"
+    android:layout_centerInParent="true"
+    android:layout_centerVertical="true"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:layout_weight="1"
+        android:layoutDirection="rtl"
+        android:gravity="center">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtViewPlayerName"
+            android:layout_weight="1"
+            android:text="نام بازی"
+            android:fontFamily="@font/minister_regular_ui"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:paddingStart="8dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtViewPlayerScore"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:text="تاریخ"
+            android:textAlignment="center"
+            android:fontFamily="@font/minister_regular_ui"
+            android:textDirection="rtl"/>
+
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>

@@ -7,11 +7,17 @@ public class Game {
         return maxScore;
     }
 
-    public void setMaxScore(int maxScore) {
-        this.maxScore = maxScore;
+    private int maxScore;
+
+    public int getRounds() {
+        return rounds;
     }
 
-    private int maxScore;
+    public void setRounds(int rounds) {
+        this.rounds = rounds;
+    }
+
+    private int rounds;
     private String name;
     private String date;
 

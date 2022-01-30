@@ -5,17 +5,21 @@
       <map>
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/drawable-v24/ic_baseline_add.xml" value="0.15572916666666667" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/drawable-v24/ic_baseline_edit.xml" value="0.15572916666666667" />
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/drawable/fade_red.xml" value="0.1335" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/drawable/ic_baseline_arrow_back.xml" value="0.2805128205128205" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/activity_game.xml" value="0.26875" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/activity_history.xml" value="0.15925925925925927" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/activity_home.xml" value="0.2086956590966153" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/activity_main.xml" value="0.2212962962962963" />
-        <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/activity_player.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/activity_player.xml" value="0.4173913181932306" />
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/activity_player_result.xml" value="0.4173913181932306" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/activity_result.xml" value="0.2086956590966153" />
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/activity_result2.xml" value="0.26875" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/activity_splash.xml" value="0.10017391636637535" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/add_new_player.xml" value="0.4173913181932306" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/add_new_task.xml" value="0.1" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/game_layout.xml" value="0.15925925925925927" />
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/game_result_layout.xml" value="0.26875" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/player_layout.xml" value="0.26875" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/layout/task_layout.xml" value="0.1" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/DirtySeven/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.28489583333333335" />
@@ -32,7 +36,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.10017391636637535" />
+        <option name="scale" value="0.2086956590966153" />
       </ProjectState>
     </option>
   </component>

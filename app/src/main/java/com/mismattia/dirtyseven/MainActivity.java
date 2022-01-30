@@ -2,7 +2,6 @@ package com.mismattia.dirtyseven;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -25,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.mismattia.dirtyseven.adapter.PlayerAdapter;
-import com.mismattia.dirtyseven.model.Player;
+import com.mismattia.dirtyseven.model.GamePlayer;
 import com.mismattia.dirtyseven.singleton.GameState;
 import com.mismattia.dirtyseven.utility.DatabaseHelper;
 
@@ -34,14 +33,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView playerRecyclerView;
     private DatabaseHelper myDB;
-    private ArrayList<Player> players;
     private PlayerAdapter adapter;
-    private TextView txtViewGameName;
     private TextView txtViewRoundNumber;
-    private ExtendedFloatingActionButton fabEndRound;
-    private ExtendedFloatingActionButton fabEndPlay;
     private Chronometer simpleChronometer;
 
     @Override
@@ -49,20 +43,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        playerRecyclerView = findViewById(R.id.recyclerView);
-        txtViewGameName = findViewById(R.id.txtViewGameName);
+        RecyclerView playerRecyclerView = findViewById(R.id.recyclerView);
+        TextView txtViewGameName = findViewById(R.id.txtViewGameName);
         txtViewRoundNumber = findViewById(R.id.txtViewRoundNumber);
         simpleChronometer = findViewById(R.id.simpleChronometer);
-        fabEndRound = findViewById(R.id.fabEndRound);
-        fabEndPlay = findViewById(R.id.fabEndPlay);
+        ExtendedFloatingActionButton fabEndRound = findViewById(R.id.fabEndRound);
+        ExtendedFloatingActionButton fabEndPlay = findViewById(R.id.fabEndPlay);
 
         simpleChronometer.start();
 
         myDB = new DatabaseHelper(MainActivity.this);
-        players = new ArrayList<>();
+        ArrayList<GamePlayer> players;
         adapter = new PlayerAdapter(myDB, MainActivity.this);
 
-        players = myDB.getAllPlayers();
+        players = myDB.getAllGamePlayers();
         adapter.setPlayers(players);
 
         playerRecyclerView.setHasFixedSize(true);
@@ -72,77 +66,66 @@ public class MainActivity extends AppCompatActivity {
         txtViewGameName.setText(GameState.getInstance().gameName);
 
         // Store round points
-        fabEndRound.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                hideSoftKeyboard(MainActivity.this, view);
+        fabEndRound.setOnClickListener(view -> {
+            hideSoftKeyboard(MainActivity.this, view);
 
-                List<Player> players = adapter.getPlayers();
+            List<GamePlayer> players1 = adapter.getPlayers();
 
-                if(playersHaveUnsetScore(players)) {
-                    return;
-                }
-
-
-                for (Player player : players) {
-                    myDB.insertGameRound(player.getId(), player.getLastScore());
-
-                    player.setLastScore(-1);
-                }
-
-                adapter.clearScores();
-                Toast.makeText(MainActivity.this, "امتیازهای این دور ذخیره شد", Toast.LENGTH_SHORT).show();
-
-                if(myDB.maxScoresIsReached()) {
-                    playCompletionSound();
-
-                    String gameDuration = simpleChronometer.getText().toString();
-                    myDB.updateGame(GameState.getInstance().gameId, gameDuration);
-
-                    startActivity(new Intent(MainActivity.this, ResultActivity.class));
-                }
-
-                updateRoundNumber();
+            if(playersHaveUnsetScore(players1)) {
+                Toast.makeText(MainActivity.this, "لطفا امتیاز همه بازیکن‌ها را وارد کنید", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+
+            for (GamePlayer player : players1) {
+                myDB.insertGameRound(player.getPlayerId(), player.getLastScore());
+
+                player.setLastScore(-1);
+            }
+
+            adapter.clearScores();
+            Toast.makeText(MainActivity.this, "امتیازهای این دور ذخیره شد", Toast.LENGTH_SHORT).show();
+
+            if(myDB.maxScoresIsReached()) {
+                playCompletionSound();
+
+                String gameDuration = simpleChronometer.getText().toString();
+                myDB.updateGame(GameState.getInstance().gameId, gameDuration, GameState.getInstance().roundNumber);
+
+                startActivity(new Intent(MainActivity.this, ResultActivity.class));
+            }
+
+            updateRoundNumber();
         });
 
         // End game and show results
-        fabEndPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
+        fabEndPlay.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
 
-                // alert dialog title align center
-                SpannableString title = new SpannableString("پایان بازی");
-                title.setSpan(
-                        new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
-                        0,
-                        title.length(),
-                        0
-                );
+            // alert dialog title align center
+            SpannableString title = new SpannableString("پایان بازی");
+            title.setSpan(
+                    new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+                    0,
+                    title.length(),
+                    0
+            );
 
-                builder.setTitle(title);
-                builder.setMessage("پایان بازی و مشاهده نتیجه؟");
-                builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        String gameDuration = simpleChronometer.getText().toString();
-                        myDB.updateGame(GameState.getInstance().gameId, gameDuration);
+            builder.setTitle(title);
+            builder.setMessage("پایان بازی و مشاهده نتیجه؟");
+            builder.setPositiveButton("بله", (dialogInterface, which) -> {
+                String gameDuration = simpleChronometer.getText().toString();
+                myDB.updateGame(GameState.getInstance().gameId, gameDuration, GameState.getInstance().roundNumber);
 
-                        startActivity(new Intent(MainActivity.this, ResultActivity.class));
-                    }
-                });
-                builder.setNegativeButton("خیر", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //
-                    }
-                });
+                startActivity(new Intent(MainActivity.this, ResultActivity.class));
+            });
+            builder.setNegativeButton("خیر", (dialogInterface, i) -> {
+                //
+            });
 
-                AlertDialog dialog = builder.create();
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.show();
-            }
+            AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
         });
     }
 
@@ -172,10 +155,10 @@ public class MainActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
     }
 
-    private boolean playersHaveUnsetScore(List<Player> players) {
+    private boolean playersHaveUnsetScore(List<GamePlayer> players) {
         boolean haveUnsetScore = false;
 
-        for (Player player : players) {
+        for (GamePlayer player : players) {
             if(player.getLastScore() == -1) {
                 haveUnsetScore = true;
 

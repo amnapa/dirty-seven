@@ -15,33 +15,23 @@ import com.mismattia.dirtyseven.model.Game;
 import com.mismattia.dirtyseven.singleton.GameState;
 import com.mismattia.dirtyseven.utility.DatabaseHelper;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class HistoryActivity extends AppCompatActivity {
-    private RecyclerView gameRecyclerView;
-    private DatabaseHelper myDB;
-    private List<Game> games;
     private GameAdapter adapter;
-    private SearchView searchViewGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        gameRecyclerView = findViewById(R.id.recyclerView);
-        searchViewGame = findViewById(R.id.searchViewGame);
+        RecyclerView gameRecyclerView = findViewById(R.id.recyclerView);
+        SearchView searchViewGame = findViewById(R.id.searchViewGame);
 
-        myDB = new DatabaseHelper(HistoryActivity.this);
-        games = new ArrayList<>();
-        adapter = new GameAdapter(myDB, HistoryActivity.this, new GameAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Game item) {
-                showGameResult(item);
-            }
-        });
+        DatabaseHelper myDB = new DatabaseHelper(HistoryActivity.this);
+        List<Game> games;
+        adapter = new GameAdapter(myDB, HistoryActivity.this, this::showGameResult);
 
         games = myDB.getAllGames();
         Collections.reverse(games);

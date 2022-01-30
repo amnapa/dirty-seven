@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -16,14 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mismattia.dirtyseven.AddNewPlayer;
 import com.mismattia.dirtyseven.MainActivity;
 import com.mismattia.dirtyseven.R;
+import com.mismattia.dirtyseven.model.GamePlayer;
 import com.mismattia.dirtyseven.model.Player;
 import com.mismattia.dirtyseven.utility.DatabaseHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.MyViewHolder> {
-    private static final String TAG = "PlayerAdapter";
-    private ArrayList<Player> playerList = new ArrayList<>();
+    private ArrayList<GamePlayer> playerList = new ArrayList<>();
     private AppCompatActivity activity;
     private DatabaseHelper myDB;
     private Boolean clearScores = false;
@@ -42,9 +44,9 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        final Player player = playerList.get(position);
+        final GamePlayer player = playerList.get(position);
         holder.playerName.setText(player.getName());
-        holder.playerTotalScore.setText(String.valueOf(myDB.getAllPlayerTotalScores(player.getId())));
+        holder.playerTotalScore.setText(String.valueOf(myDB.getAllPlayerTotalScores(player.getPlayerId())));
 
         // Clear players score after each round
         if (clearScores) {
@@ -79,29 +81,30 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.MyViewHold
         return activity;
     }
 
-    public void setPlayers(ArrayList<Player> playerList) {
+    public void setPlayers(ArrayList<GamePlayer> playerList) {
         this.playerList = playerList;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public ArrayList<GamePlayer> getPlayers() {
         return this.playerList;
     }
 
     public void deletePlayer(int position) {
-        Player item = playerList.get(position);
+        GamePlayer item = playerList.get(position);
         myDB.deletePlayer(item.getId());
         playerList.remove(position);
         notifyItemRemoved(position);
     }
 
     public void editItem(int position) {
-        Player item = playerList.get(position);
+        GamePlayer item = playerList.get(position);
+        ArrayList<Player> players = myDB.getAllPlayers();
 
         Bundle bundle = new Bundle();
         bundle.putBoolean("is_update", true);
-        bundle.putInt("id", item.getId());
+        bundle.putInt("id", item.getPlayerId());
         bundle.putString("name", item.getName());
-        bundle.putParcelableArrayList("players", playerList);
+        bundle.putParcelableArrayList("players", players);
 
         AddNewPlayer player = new AddNewPlayer();
         player.setArguments(bundle);
@@ -144,7 +147,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.MyViewHold
 
         @Override
         public void onTextChanged(CharSequence editable, int i, int i2, int i3) {
-            Player player = playerList.get(position);
+            GamePlayer player = playerList.get(position);
             String playerScoreText = editable.toString();
 
                     if (! playerScoreText.equals("")) {

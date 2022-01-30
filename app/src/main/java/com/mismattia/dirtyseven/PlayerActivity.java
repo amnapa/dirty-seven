@@ -1,19 +1,21 @@
 package com.mismattia.dirtyseven;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mismattia.dirtyseven.adapter.PlayerAdapter;
 import com.mismattia.dirtyseven.helper.PlayerRecyclerViewTouchHelper;
+import com.mismattia.dirtyseven.model.GamePlayer;
 import com.mismattia.dirtyseven.model.Player;
 import com.mismattia.dirtyseven.utility.DatabaseHelper;
 
@@ -21,35 +23,38 @@ import java.util.ArrayList;
 
 public class PlayerActivity extends AppCompatActivity implements OnDialogCloseListener {
 
-    private RecyclerView playerRecyclerView;
-    private FloatingActionButton addPlayerButton;
     private DatabaseHelper myDB;
-    private ArrayList<Player> players;
+    private ArrayList<GamePlayer> gamePlayers;
+    private ArrayList<Player> allPlayers;
     private PlayerAdapter adapter;
-    private FloatingActionButton fabPlay;
+    private AutoCompleteTextView autoCompleteTxtViewPlayerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
-        fabPlay = findViewById(R.id.fabPlay);
-        playerRecyclerView = findViewById(R.id.recyclerView);
-        addPlayerButton = findViewById(R.id.fab);
+        autoCompleteTxtViewPlayerName = findViewById(R.id.autoCompleteTxtViewPlayerName);
+        FloatingActionButton fabPlay = findViewById(R.id.fabPlay);
+        RecyclerView playerRecyclerView = findViewById(R.id.recyclerView);
+        FloatingActionButton addPlayerButton = findViewById(R.id.fab);
         myDB = new DatabaseHelper(PlayerActivity.this);
-        players = new ArrayList<>();
+        gamePlayers = new ArrayList<>();
         adapter = new PlayerAdapter(myDB, PlayerActivity.this);
 
-        adapter.setPlayers(players);
+        adapter.setPlayers(gamePlayers);
+
 
         playerRecyclerView.setHasFixedSize(true);
         playerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         playerRecyclerView.setAdapter(adapter);
 
+        allPlayers = myDB.getAllPlayers();
+
         addPlayerButton.setOnClickListener((v) -> {
             Bundle bundle = new Bundle();
             bundle.putBoolean("is_update", false);
-            bundle.putParcelableArrayList("players", players);
+            bundle.putParcelableArrayList("players", allPlayers);
 
             AddNewPlayer player = new AddNewPlayer();
             player.setArguments(bundle);
@@ -59,24 +64,46 @@ public class PlayerActivity extends AppCompatActivity implements OnDialogCloseLi
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new PlayerRecyclerViewTouchHelper(adapter));
         itemTouchHelper.attachToRecyclerView(playerRecyclerView);
 
-        fabPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Todo: Check for at least 5 players
-                if(adapter.getItemCount() == 0) {
-                    Toast.makeText(PlayerActivity.this, "تعداد بازیکن‌ها کافی نیست", Toast.LENGTH_SHORT).show();
-                } else {
-                    startActivity(new Intent(PlayerActivity.this, MainActivity.class ));
+        fabPlay.setOnClickListener(view -> {
+            //Todo: Check for at least 5 players
+            if (adapter.getItemCount() == 0) {
+                Toast.makeText(PlayerActivity.this, "تعداد بازیکن‌ها کافی نیست", Toast.LENGTH_SHORT).show();
+            } else {
+                startActivity(new Intent(PlayerActivity.this, MainActivity.class));
+            }
+        });
+
+        ArrayAdapter<Player> playerAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allPlayers);
+        autoCompleteTxtViewPlayerName.setAdapter(playerAdapter);
+
+        autoCompleteTxtViewPlayerName.setOnItemClickListener((parent, view, position, id) -> {
+            // clear the text view and allow adding more players
+            autoCompleteTxtViewPlayerName.setText("");
+
+            Player player = (Player) parent.getItemAtPosition(position);
+
+            for (GamePlayer gamePlayer : gamePlayers) {
+                if (gamePlayer.getPlayerId() == player.getId()) {
+                    Toast.makeText(PlayerActivity.this, "این بازیکن قبلا به لیست اضافه شده است.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
             }
+
+            // Add existing player to the game
+            myDB.insertGamePlayer(player);
+
+            // Refresh the Recycler view and show the new player
+            gamePlayers = myDB.getAllGamePlayers();
+            adapter.setPlayers(gamePlayers);
+            adapter.notifyDataSetChanged();
         });
     }
 
     @Override
     public void onDialogClose(DialogInterface dialogInterface) {
-        players = myDB.getAllPlayers();
-        //Collections.reverse(players);
-        adapter.setPlayers(players);
+        gamePlayers = myDB.getAllGamePlayers();
+        adapter.setPlayers(gamePlayers);
         adapter.notifyDataSetChanged();
     }
 }

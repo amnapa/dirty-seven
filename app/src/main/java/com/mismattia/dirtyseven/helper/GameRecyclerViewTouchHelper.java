@@ -1,6 +1,5 @@
 package com.mismattia.dirtyseven.helper;
 
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.text.Layout;
@@ -18,7 +17,7 @@ import com.mismattia.dirtyseven.adapter.GameAdapter;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class GameRecyclerViewTouchHelper extends ItemTouchHelper.SimpleCallback {
-    private GameAdapter adapter;
+    private final GameAdapter adapter;
 
     public GameRecyclerViewTouchHelper(GameAdapter adapter) {
         super(0,  ItemTouchHelper.RIGHT);
@@ -47,18 +46,8 @@ public class GameRecyclerViewTouchHelper extends ItemTouchHelper.SimpleCallback 
 
             builder.setTitle(title);
             builder.setMessage("این بازی و تمام رکوردهای مربوط به آن حذف شود؟");
-            builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int which) {
-                    adapter.deleteGame(position);
-                }
-            });
-            builder.setNegativeButton("خیر", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    adapter.notifyItemChanged(position);
-                }
-            });
+            builder.setPositiveButton("بله", (dialogInterface, which) -> adapter.deleteGame(position));
+            builder.setNegativeButton("خیر", (dialogInterface, i) -> adapter.notifyItemChanged(position));
 
             AlertDialog dialog = builder.create();
             dialog.setCanceledOnTouchOutside(false);

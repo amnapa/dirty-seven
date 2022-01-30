@@ -3,13 +3,11 @@ package com.mismattia.dirtyseven;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,22 +20,14 @@ import com.mismattia.dirtyseven.utility.DatabaseHelper;
 import java.util.ArrayList;
 
 public class AddNewPlayer extends BottomSheetDialogFragment {
-    public static final String TAG = "AddNewPlayer";
-
     private EditText mEditText;
     private DatabaseHelper myDB;
-    ArrayList<Player> players;
-
-    public static AddNewPlayer newInstance() {
-        return new AddNewPlayer();
-    }
+    private ArrayList<Player> players;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.add_new_player, container, false);
-
-        return v;
+        return inflater.inflate(R.layout.add_new_player, container, false);
     }
 
 
@@ -62,31 +52,28 @@ public class AddNewPlayer extends BottomSheetDialogFragment {
         }
 
         final boolean finalIsUpdate = isUpdate;
-        mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_GO) {
-                    String text = mEditText.getText().toString();
+        mEditText.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_GO) {
+                String text = mEditText.getText().toString();
 
-                    if(text.equals("")) {
-                        Toast.makeText(getActivity().getApplicationContext(), "لطفا نام بازیکن را وارد کنید", Toast.LENGTH_SHORT).show();
-                    } else if(! playerAlreadyAdded(players, text)) {
-                        if (finalIsUpdate) {
-                                myDB.updatePlayer(bundle.getInt("id"), text);
+                if(text.equals("")) {
+                    Toast.makeText(getActivity().getApplicationContext(), "لطفا نام بازیکن را وارد کنید", Toast.LENGTH_SHORT).show();
+                } else if(! playerAlreadyAdded(players, text)) {
+                    if (finalIsUpdate) {
+                            myDB.updatePlayer(bundle.getInt("id"), text);
 
-                        } else {
-                                Player item = new Player();
-                                item.setName(text);
-                                myDB.insertPlayer(item);
-                        }
+                    } else {
+                            Player item = new Player();
+                            item.setName(text);
+                            myDB.insertPlayer(item);
                     }
-
-                    dismiss();
-                    handled = true;
                 }
-                return handled;
+
+                dismiss();
+                handled = true;
             }
+            return handled;
         });
 
 
@@ -108,7 +95,7 @@ public class AddNewPlayer extends BottomSheetDialogFragment {
         for(Player player: players) {
             if (player.getName().equals(name)) {
                 alreadyAdded = true;
-                Toast.makeText(getActivity(), "این بازیکن قبلا اضافه شده است", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "بازیکنی با این نام قبلا اضافه شده است", Toast.LENGTH_SHORT).show();
                 break;
             }
         }
