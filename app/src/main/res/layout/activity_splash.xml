@@ -15,19 +15,18 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/amsterdam"
         android:text="Dirty Seven"
         android:textColor="@color/white"
-        android:textSize="40sp"
+        android:textSize="36sp"
         android:textStyle="bold"
-        android:drawableRight="@drawable/ic_baseline_seven"
-        android:drawablePadding="15dp"
-        android:id="@+id/txtAppName"
-        android:drawableEnd="@drawable/ic_baseline_seven" />
+        android:id="@+id/txtAppName" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/amsterdam"
         android:text="created by mismattia"
         app:layout_constraintEnd_toEndOf="@+id/txtAppName"
         app:layout_constraintHorizontal_bias="0.497"

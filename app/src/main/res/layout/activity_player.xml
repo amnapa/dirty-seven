@@ -54,6 +54,14 @@
     </androidx.cardview.widget.CardView>
 
 
+    <TextView
+        android:id="@+id/textViewNoPLayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="تا کنون بازیکنی انتخاب یا اضافه نشده است."
+        android:textAppearance="?android:textAppearanceMedium"
+        android:visibility="invisible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

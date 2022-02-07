@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 playCompletionSound();
 
                 String gameDuration = simpleChronometer.getText().toString();
+                simpleChronometer.stop();
                 myDB.updateGame(GameState.getInstance().gameId, gameDuration, GameState.getInstance().roundNumber);
 
                 startActivity(new Intent(MainActivity.this, ResultActivity.class));
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             builder.setMessage("پایان بازی و مشاهده نتیجه؟");
             builder.setPositiveButton("بله", (dialogInterface, which) -> {
                 String gameDuration = simpleChronometer.getText().toString();
+                simpleChronometer.stop();
                 myDB.updateGame(GameState.getInstance().gameId, gameDuration, GameState.getInstance().roundNumber - 1);
 
                 startActivity(new Intent(MainActivity.this, ResultActivity.class));

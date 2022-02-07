@@ -44,6 +44,7 @@ public class GameResultAdapter extends RecyclerView.Adapter<GameResultAdapter.My
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final GameResult result = results.get(position);
+        holder.playerRank.setText(String.valueOf(position + 1));
         holder.playerName.setText(result.getPlayerName());
         holder.playerScore.setText(String.valueOf(result.getScore()));
         holder.bind(results.get(position), listener);
@@ -67,11 +68,13 @@ public class GameResultAdapter extends RecyclerView.Adapter<GameResultAdapter.My
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView playerRank;
         public TextView playerName;
         public TextView playerScore;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            playerRank = itemView.findViewById(R.id.txtViewPlayerRank);
             playerName = itemView.findViewById(R.id.txtViewPlayerName);
             playerScore = itemView.findViewById(R.id.txtViewPlayerScore);
         }

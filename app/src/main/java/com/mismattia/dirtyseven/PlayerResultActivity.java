@@ -1,11 +1,16 @@
 package com.mismattia.dirtyseven;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Layout;
+import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -15,6 +20,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.mismattia.dirtyseven.model.Player;
+import com.mismattia.dirtyseven.singleton.GameState;
 import com.mismattia.dirtyseven.utility.ChartValueFormatter;
 import com.mismattia.dirtyseven.utility.DatabaseHelper;
 
@@ -35,9 +41,11 @@ public class PlayerResultActivity extends AppCompatActivity {
         ArrayList<Entry> scoreValues = new ArrayList<>();
 
         TextView txtViewPlayerName = findViewById(R.id.txtViewPlayerName);
+        TextView txtViewBack = findViewById(R.id.txtViewBack);
         TextView txtViewTotalScores = findViewById(R.id.txtViewTotalScores);
         TextView txtViewMinScoreValue = findViewById(R.id.txtViewMinScoreValue);
         TextView txtViewMaxScoreValue = findViewById(R.id.txtViewMaxScoreValue);
+        TextView txtViewAverageScoreValue = findViewById(R.id.txtViewAverageScoreValue);
         scoreChart = findViewById(R.id.scoreChart);
 
         // Get player Info
@@ -57,11 +65,18 @@ public class PlayerResultActivity extends AppCompatActivity {
         }
 
         txtViewPlayerName.setText(player.getName());
-        txtViewTotalScores.setText("امتیاز کل: " + String.valueOf(totalScores));
+        txtViewTotalScores.setText("امتیاز نهایی: " + String.valueOf(totalScores));
         txtViewMinScoreValue.setText(String.valueOf(Collections.min(scores)));
         txtViewMaxScoreValue.setText(String.valueOf(Collections.max(scores)));
+        txtViewAverageScoreValue.setText(String.valueOf(totalScores / scores.size()));
 
         makeLineChart(scoreValues);
+
+
+        // Back to game result
+        txtViewBack.setOnClickListener(view -> {
+                startActivity(new Intent(PlayerResultActivity.this, ResultActivity.class));
+        });
     }
 
     private void makeLineChart(ArrayList<Entry> scoreValues) {

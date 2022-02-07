@@ -20,7 +20,7 @@
         app:layout_constraintDimensionRatio="1:1"
         android:layout_marginTop="20dp"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnNewGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,10 +31,12 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="150dp"
         android:textSize="18sp"
+        app:cornerRadius="20dp"
+        android:elevation="50dp"
         android:textColor="@color/white"
         android:backgroundTint="@color/green"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGameHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,8 +46,9 @@
         app:layout_constraintStart_toStartOf="@+id/btnNewGame"
         app:layout_constraintTop_toBottomOf="@+id/btnNewGame"
         android:textSize="18sp"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/gray"/>
+        app:cornerRadius="20dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue"/>
 
     <TextView
         android:id="@+id/btnGameCredit"

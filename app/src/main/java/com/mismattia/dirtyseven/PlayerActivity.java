@@ -3,8 +3,10 @@ package com.mismattia.dirtyseven;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +30,7 @@ public class PlayerActivity extends AppCompatActivity implements OnDialogCloseLi
     private ArrayList<Player> allPlayers;
     private PlayerAdapter adapter;
     private AutoCompleteTextView autoCompleteTxtViewPlayerName;
+    private TextView textViewNoPLayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class PlayerActivity extends AppCompatActivity implements OnDialogCloseLi
         setContentView(R.layout.activity_player);
 
         autoCompleteTxtViewPlayerName = findViewById(R.id.autoCompleteTxtViewPlayerName);
+        textViewNoPLayer = findViewById(R.id.textViewNoPLayer);
         FloatingActionButton fabPlay = findViewById(R.id.fabPlay);
         RecyclerView playerRecyclerView = findViewById(R.id.recyclerView);
         FloatingActionButton addPlayerButton = findViewById(R.id.fab);
@@ -43,7 +47,7 @@ public class PlayerActivity extends AppCompatActivity implements OnDialogCloseLi
         adapter = new PlayerAdapter(myDB, PlayerActivity.this);
 
         adapter.setPlayers(gamePlayers);
-
+        noPlayerMessage();
 
         playerRecyclerView.setHasFixedSize(true);
         playerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -66,7 +70,7 @@ public class PlayerActivity extends AppCompatActivity implements OnDialogCloseLi
 
         fabPlay.setOnClickListener(view -> {
             //Todo: Check for at least 5 players
-            if (adapter.getItemCount() == 0) {
+            if (adapter.getItemCount() < 3) {
                 Toast.makeText(PlayerActivity.this, "تعداد بازیکن‌ها کافی نیست", Toast.LENGTH_SHORT).show();
             } else {
                 startActivity(new Intent(PlayerActivity.this, MainActivity.class));
@@ -97,6 +101,7 @@ public class PlayerActivity extends AppCompatActivity implements OnDialogCloseLi
             gamePlayers = myDB.getAllGamePlayers();
             adapter.setPlayers(gamePlayers);
             adapter.notifyDataSetChanged();
+            noPlayerMessage();
         });
     }
 
@@ -105,5 +110,14 @@ public class PlayerActivity extends AppCompatActivity implements OnDialogCloseLi
         gamePlayers = myDB.getAllGamePlayers();
         adapter.setPlayers(gamePlayers);
         adapter.notifyDataSetChanged();
+        noPlayerMessage();
+    }
+
+    private void noPlayerMessage() {
+        if (adapter.getItemCount() == 0) {
+            textViewNoPLayer.setVisibility(View.VISIBLE);
+        } else {
+            textViewNoPLayer.setVisibility(View.INVISIBLE);
+        }
     }
 }
