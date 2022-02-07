@@ -7,6 +7,22 @@
     android:background="@color/gray"
     tools:context=".ResultActivity">
 
+    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardGameResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="15dp"
+        android:elevation="5dp"
+        android:layoutDirection="rtl"
+        app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +31,7 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         android:id="@+id/txtViewResultGameName"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/minister_regular_ui"/>
 
@@ -44,12 +60,15 @@
 
     </RelativeLayout>
 
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recyclerView"
-        android:layout_below="@+id/gameDetails"
+        android:layout_below="@+id/cardGameResult"
         android:layout_centerHorizontal="true"
         android:nestedScrollingEnabled="true" />
 

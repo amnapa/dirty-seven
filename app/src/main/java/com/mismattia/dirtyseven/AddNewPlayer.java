@@ -76,7 +76,6 @@ public class AddNewPlayer extends BottomSheetDialogFragment {
             return handled;
         });
 
-
     }
 
     @Override

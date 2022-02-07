@@ -40,13 +40,14 @@ public class GameActivity extends AppCompatActivity {
                     Integer.parseInt(maxScoreText);
 
             // Store new game data
-            Game game = new Game(gameName, maxScore, null);
+            Game game = new Game(gameName, maxScore, null, 1);
             myDB = new DatabaseHelper(GameActivity.this);
 
             // Set global properties of game id, name and max score
             GameState.getInstance().gameId = myDB.insertGame(game);
             GameState.getInstance().gameName = gameName;
             GameState.getInstance().maxScore = maxScore;
+            GameState.getInstance().roundNumber = 1;
 
             // Switch to Player activity and get all players from user
             startActivity(new Intent(GameActivity.this, PlayerActivity.class ));

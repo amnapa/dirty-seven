@@ -35,7 +35,7 @@ public class Game {
         super();
     }
 
-    public Game(String name, int maxScore, String date) {
+    public Game(String name, int maxScore, String date, int rounds) {
         this.name = name;
         this.maxScore = maxScore;
         this.date = date;

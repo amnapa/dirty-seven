@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             builder.setMessage("پایان بازی و مشاهده نتیجه؟");
             builder.setPositiveButton("بله", (dialogInterface, which) -> {
                 String gameDuration = simpleChronometer.getText().toString();
-                myDB.updateGame(GameState.getInstance().gameId, gameDuration, GameState.getInstance().roundNumber);
+                myDB.updateGame(GameState.getInstance().gameId, gameDuration, GameState.getInstance().roundNumber - 1);
 
                 startActivity(new Intent(MainActivity.this, ResultActivity.class));
             });
