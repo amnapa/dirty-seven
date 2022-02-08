@@ -85,7 +85,7 @@ public class PlayerResultActivity extends AppCompatActivity {
         set1.setFillAlpha(110);
         set1.setLineWidth(3f);
         set1.setValueTextSize(14f);
-        set1.setCircleRadius(8f);
+        set1.setCircleRadius(5f);
         set1.setColor(Color.RED);
         set1.setCircleColor(Color.RED);
         set1.setFillColor(Color.RED);
