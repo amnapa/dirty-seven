@@ -71,7 +71,7 @@ public class PlayerActivity extends AppCompatActivity implements OnDialogCloseLi
         fabPlay.setOnClickListener(view -> {
             //Todo: Check for at least 5 players
             if (adapter.getItemCount() < 3) {
-                Toast.makeText(PlayerActivity.this, "تعداد بازیکن‌ها کافی نیست", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PlayerActivity.this, "حداقل سه بازیکن را انتخاب یا اضافه کنید.", Toast.LENGTH_SHORT).show();
             } else {
                 startActivity(new Intent(PlayerActivity.this, MainActivity.class));
             }

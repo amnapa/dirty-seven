@@ -36,17 +36,19 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
-        android:hint="امتیاز برای پایان بازی"
+        android:hint="امتیاز پایانی"
         app:layout_constraintEnd_toEndOf="@+id/edtTxtGameName"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="@+id/edtTxtGameName"
         app:layout_constraintTop_toBottomOf="@+id/edtTxtGameName" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCreateGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        app:cornerRadius="20dp"
+        android:elevation="50dp"
         android:text="ذخیره و انتخاب بازیکن‌ها"
         app:layout_constraintEnd_toEndOf="@+id/edtTxtMaxScore"
         app:layout_constraintHorizontal_bias="0.491"

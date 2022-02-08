@@ -1,6 +1,8 @@
 package com.mismattia.dirtyseven;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
 import android.widget.SearchView;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.mismattia.dirtyseven.adapter.GameAdapter;
 import com.mismattia.dirtyseven.helper.GameRecyclerViewTouchHelper;
@@ -20,12 +23,15 @@ import java.util.List;
 
 public class HistoryActivity extends AppCompatActivity {
     private GameAdapter adapter;
+    private TextView textViewNoGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
+        TextView txtViewBack = findViewById(R.id.txtViewBack);
+        textViewNoGame = findViewById(R.id.textViewNoGame);
         RecyclerView gameRecyclerView = findViewById(R.id.recyclerView);
         SearchView searchViewGame = findViewById(R.id.searchViewGame);
 
@@ -60,6 +66,16 @@ public class HistoryActivity extends AppCompatActivity {
             }
         });
 
+        // Back to game result
+        txtViewBack.setOnClickListener(view -> {
+            startActivity(new Intent(HistoryActivity.this, HomeActivity.class));
+        });
+
+        if (adapter.getItemCount() == 0) {
+            textViewNoGame.setVisibility(View.VISIBLE);
+        } else {
+            textViewNoGame.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void showGameResult(Game game) {

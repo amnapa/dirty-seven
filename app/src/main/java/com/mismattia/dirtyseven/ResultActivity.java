@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.mismattia.dirtyseven.adapter.GameResultAdapter;
@@ -27,6 +28,8 @@ public class ResultActivity extends AppCompatActivity {
         TextView txtViewResultGameName = findViewById(R.id.txtViewResultGameName);
         TextView txtViewGameDuration = findViewById(R.id.txtViewGameDuration);
         TextView txtViewGameRounds = findViewById(R.id.txtViewGameRounds);
+        TextView txtViewBack = findViewById(R.id.txtViewBack);
+        TextView textViewNoPLayer = findViewById(R.id.textViewNoPlayer);
 
         DatabaseHelper myDB = new DatabaseHelper(ResultActivity.this);
         Game game = myDB.getGame(GameState.getInstance().gameId);
@@ -45,6 +48,15 @@ public class ResultActivity extends AppCompatActivity {
         gaeResultRecyclerView.setHasFixedSize(true);
         gaeResultRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         gaeResultRecyclerView.setAdapter(adapter);
+
+        // Back to game result
+        txtViewBack.setOnClickListener(view -> startActivity(new Intent(ResultActivity.this, HistoryActivity.class)));
+
+        if (adapter.getItemCount() == 0) {
+            textViewNoPLayer.setVisibility(View.VISIBLE);
+        } else {
+            textViewNoPLayer.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void showPlayerResult(GameResult gameResult) {

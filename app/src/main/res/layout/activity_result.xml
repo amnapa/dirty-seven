@@ -14,7 +14,6 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="15dp"
         android:elevation="5dp"
-        android:layoutDirection="rtl"
         app:cardCornerRadius="8dp">
 
     <LinearLayout
@@ -23,18 +22,38 @@
         android:orientation="vertical"
         android:layout_weight="1">
 
-    <TextView
-        android:layout_width="wrap_content"
+       <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="نتیجه پایانی -"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:id="@+id/txtViewResultGameName"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/minister_regular_ui"/>
+        android:padding="8dp"
+        android:layout_weight="1">
 
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="نتیجه پایانی"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:id="@+id/txtViewResultGameName"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/minister_regular_ui"/>
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="14sp"
+               android:textColor="@color/black"
+               android:id="@+id/txtViewBack"
+               android:textStyle="bold"
+               android:layout_centerVertical="true"
+               android:gravity="left"
+               android:clickable="true"
+               android:drawableLeft="@drawable/ic_baseline_arrow_back"
+               android:fontFamily="@font/minister_regular_ui"/>
+       </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -63,11 +82,19 @@
     </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:id="@+id/textViewNoPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="اطلاعاتی برای نمایش وجود ندارد."
+        android:textAppearance="?android:textAppearanceMedium"
+        android:visibility="invisible" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recyclerView"
         android:layout_below="@+id/cardGameResult"
         android:layout_centerHorizontal="true"
         android:nestedScrollingEnabled="true" />
